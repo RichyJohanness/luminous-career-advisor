@@ -39,11 +39,11 @@ const UserRecommendation = () => {
       question: 'Apa tingkat pendidikan terakhir Anda?',
       type: 'radio',
       options: [
-        { value: '1', label: 'SMA/SMK', score: 1 },
-        { value: '2', label: 'D3/Diploma', score: 2 },
-        { value: '3', label: 'S1/Sarjana', score: 3 },
-        { value: '4', label: 'S2/Magister', score: 4 },
-        { value: '5', label: 'S3/Doktor', score: 5 }
+        { value: '1', label: 'Sangat Rendah', score: 1 },
+        { value: '2', label: 'Rendah', score: 2 },
+        { value: '3', label: 'Sedang', score: 3 },
+        { value: '4', label: 'Tinggi', score: 4 },
+        { value: '5', label: 'Sangat Tinggi', score: 5 }
       ],
       value: ''
     },
@@ -60,11 +60,11 @@ const UserRecommendation = () => {
       question: 'Berapa lama total pengalaman kerja Anda?',
       type: 'radio',
       options: [
-        { value: '1', label: 'Kurang dari 1 tahun', score: 1 },
-        { value: '2', label: '1-2 tahun', score: 2 },
-        { value: '3', label: '3-5 tahun', score: 3 },
-        { value: '4', label: '6-10 tahun', score: 4 },
-        { value: '5', label: 'Lebih dari 10 tahun', score: 5 }
+        { value: '1', label: 'Sangat Sedikit', score: 1 },
+        { value: '2', label: 'Sedikit', score: 2 },
+        { value: '3', label: 'Cukup', score: 3 },
+        { value: '4', label: 'Banyak', score: 4 },
+        { value: '5', label: 'Sangat Banyak', score: 5 }
       ],
       value: ''
     },
@@ -81,11 +81,11 @@ const UserRecommendation = () => {
       question: 'Bagaimana tingkat kemampuan programming Anda?',
       type: 'radio',
       options: [
-        { value: '1', label: 'Pemula (baru belajar)', score: 1 },
-        { value: '2', label: 'Menengah (bisa membuat program sederhana)', score: 2 },
-        { value: '3', label: 'Mahir (bisa membuat aplikasi kompleks)', score: 3 },
-        { value: '4', label: 'Ahli (bisa mengajar dan memimpin tim)', score: 4 },
-        { value: '5', label: 'Expert (diakui industri)', score: 5 }
+        { value: '1', label: 'Sangat Pemula', score: 1 },
+        { value: '2', label: 'Pemula', score: 2 },
+        { value: '3', label: 'Menengah', score: 3 },
+        { value: '4', label: 'Mahir', score: 4 },
+        { value: '5', label: 'Expert', score: 5 }
       ],
       value: ''
     },
@@ -95,11 +95,11 @@ const UserRecommendation = () => {
       question: 'Bagaimana kemampuan komunikasi dan kerjasama tim Anda?',
       type: 'radio',
       options: [
-        { value: '1', label: 'Perlu banyak pengembangan', score: 1 },
-        { value: '2', label: 'Cukup baik', score: 2 },
-        { value: '3', label: 'Baik', score: 3 },
-        { value: '4', label: 'Sangat baik', score: 4 },
-        { value: '5', label: 'Excellent', score: 5 }
+        { value: '1', label: 'Sangat Kurang', score: 1 },
+        { value: '2', label: 'Kurang', score: 2 },
+        { value: '3', label: 'Cukup', score: 3 },
+        { value: '4', label: 'Baik', score: 4 },
+        { value: '5', label: 'Sangat Baik', score: 5 }
       ],
       value: ''
     }
@@ -330,16 +330,17 @@ const UserRecommendation = () => {
                 <RadioGroup
                   value={question.value}
                   onValueChange={(value) => handleAnswerChange(question.id, value)}
-                  className="space-y-3"
+                  className="flex flex-col space-y-2"
                 >
                   {question.options.map((option) => (
                     <div key={option.value} className="flex items-center space-x-3 p-3 rounded-lg bg-muted/30 hover:bg-muted/50 transition-colors">
                       <RadioGroupItem value={option.value} id={`q${question.id}-${option.value}`} />
                       <Label 
                         htmlFor={`q${question.id}-${option.value}`}
-                        className="flex-1 cursor-pointer text-foreground"
+                        className="flex-1 cursor-pointer text-foreground flex items-center justify-between"
                       >
-                        {option.label}
+                        <span>{option.label}</span>
+                        <span className="text-sm text-muted-foreground">({option.value})</span>
                       </Label>
                     </div>
                   ))}
