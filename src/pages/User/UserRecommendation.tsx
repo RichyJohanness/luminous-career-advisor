@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -39,11 +38,11 @@ const UserRecommendation = () => {
       question: 'Apa tingkat pendidikan terakhir Anda?',
       type: 'radio',
       options: [
-        { value: '1', label: 'Sangat Rendah', score: 1 },
-        { value: '2', label: 'Rendah', score: 2 },
-        { value: '3', label: 'Sedang', score: 3 },
-        { value: '4', label: 'Tinggi', score: 4 },
-        { value: '5', label: 'Sangat Tinggi', score: 5 }
+        { value: '1', label: 'Sangat Kurang', score: 1 },
+        { value: '2', label: 'Kurang', score: 2 },
+        { value: '3', label: 'Cukup', score: 3 },
+        { value: '4', label: 'Baik', score: 4 },
+        { value: '5', label: 'Sangat Baik', score: 5 }
       ],
       value: ''
     },
@@ -60,11 +59,11 @@ const UserRecommendation = () => {
       question: 'Berapa lama total pengalaman kerja Anda?',
       type: 'radio',
       options: [
-        { value: '1', label: 'Sangat Sedikit', score: 1 },
-        { value: '2', label: 'Sedikit', score: 2 },
+        { value: '1', label: 'Sangat Kurang', score: 1 },
+        { value: '2', label: 'Kurang', score: 2 },
         { value: '3', label: 'Cukup', score: 3 },
-        { value: '4', label: 'Banyak', score: 4 },
-        { value: '5', label: 'Sangat Banyak', score: 5 }
+        { value: '4', label: 'Baik', score: 4 },
+        { value: '5', label: 'Sangat Baik', score: 5 }
       ],
       value: ''
     },
@@ -81,11 +80,11 @@ const UserRecommendation = () => {
       question: 'Bagaimana tingkat kemampuan programming Anda?',
       type: 'radio',
       options: [
-        { value: '1', label: 'Sangat Pemula', score: 1 },
-        { value: '2', label: 'Pemula', score: 2 },
-        { value: '3', label: 'Menengah', score: 3 },
-        { value: '4', label: 'Mahir', score: 4 },
-        { value: '5', label: 'Expert', score: 5 }
+        { value: '1', label: 'Sangat Kurang', score: 1 },
+        { value: '2', label: 'Kurang', score: 2 },
+        { value: '3', label: 'Cukup', score: 3 },
+        { value: '4', label: 'Baik', score: 4 },
+        { value: '5', label: 'Sangat Baik', score: 5 }
       ],
       value: ''
     },
@@ -327,24 +326,35 @@ const UserRecommendation = () => {
               </Label>
               
               {question.type === 'radio' && question.options && (
-                <RadioGroup
-                  value={question.value}
-                  onValueChange={(value) => handleAnswerChange(question.id, value)}
-                  className="flex flex-col space-y-2"
-                >
-                  {question.options.map((option) => (
-                    <div key={option.value} className="flex items-center space-x-3 p-3 rounded-lg bg-muted/30 hover:bg-muted/50 transition-colors">
-                      <RadioGroupItem value={option.value} id={`q${question.id}-${option.value}`} />
-                      <Label 
-                        htmlFor={`q${question.id}-${option.value}`}
-                        className="flex-1 cursor-pointer text-foreground flex items-center justify-between"
-                      >
-                        <span>{option.label}</span>
-                        <span className="text-sm text-muted-foreground">({option.value})</span>
-                      </Label>
+                <div className="space-y-4">
+                  <RadioGroup
+                    value={question.value}
+                    onValueChange={(value) => handleAnswerChange(question.id, value)}
+                    className="flex flex-row items-center justify-between gap-4 p-4 rounded-lg bg-muted/30"
+                  >
+                    <div className="flex items-center space-x-4">
+                      {question.options.map((option, index) => (
+                        <div key={option.value} className="flex flex-col items-center space-y-2">
+                          <RadioGroupItem 
+                            value={option.value} 
+                            id={`q${question.id}-${option.value}`}
+                            className="h-5 w-5"
+                          />
+                          <Label 
+                            htmlFor={`q${question.id}-${option.value}`}
+                            className="text-xs text-center cursor-pointer text-foreground"
+                          >
+                            {option.value}
+                          </Label>
+                        </div>
+                      ))}
                     </div>
-                  ))}
-                </RadioGroup>
+                  </RadioGroup>
+                  <div className="flex justify-between text-sm text-muted-foreground px-4">
+                    <span>Sangat Kurang</span>
+                    <span>Sangat Baik</span>
+                  </div>
+                </div>
               )}
 
               {question.type === 'input' && (

@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -44,7 +43,7 @@ const HomePage = () => {
     },
     {
       icon: <BarChart3 className="h-8 w-8 text-blue-400" />,
-      title: "Anal is Mendalam",
+      title: "Analisis Mendalam",
       description: "Dashboard analitik lengkap dengan visualisasi data untuk memahami pola dan tren dalam rekomendasi karier"
     },
     {
@@ -126,7 +125,7 @@ const HomePage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+    <div className="min-h-screen">
       {/* Header */}
       <header className="border-b border-slate-800 bg-slate-900/50 backdrop-blur-sm sticky top-0 z-50">
         <div className="container mx-auto px-6 py-4">
@@ -162,263 +161,275 @@ const HomePage = () => {
       </header>
 
       {/* Hero Section */}
-      <section className="container mx-auto px-6 py-20">
-        <div className="text-center max-w-4xl mx-auto">
-          <Badge className="mb-6 bg-blue-500/20 text-blue-400 border-blue-500/30 animate-pulse">
-            <Award className="h-4 w-4 mr-2" />
-            Sistem Pendukung Keputusan Terdepan
-          </Badge>
-          <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 leading-tight">
-            Temukan Karier
-            <span className="bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">
-              {" "}Impian Anda
-            </span>
-          </h1>
-          <p className="text-xl text-slate-300 mb-12 leading-relaxed">
-            Platform revolusioner yang menggunakan teknologi AI dan metode AHP serta Profile Matching 
-            untuk memberikan rekomendasi karier yang akurat dan personal sesuai dengan kemampuan, 
-            minat, dan potensi unik Anda.
-          </p>
-          
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
-            <Button
-              size="lg"
-              onClick={() => handleModeSelect('user')}
-              className={`gradient-blue text-white hover:opacity-90 transition-all duration-300 transform ${
-                selectedMode === 'user' ? 'scale-105' : 'hover:scale-105'
-              }`}
-            >
-              <Users className="h-5 w-5 mr-2" />
-              Mulai Sebagai User
-              <ArrowRight className="h-5 w-5 ml-2" />
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              onClick={() => handleModeSelect('admin')}
-              className={`border-blue-500/50 text-blue-400 hover:bg-blue-500/10 transition-all duration-300 transform ${
-                selectedMode === 'admin' ? 'scale-105' : 'hover:scale-105'
-              }`}
-            >
-              <Shield className="h-5 w-5 mr-2" />
-              Panel Admin
-            </Button>
-          </div>
-
-          {/* Hero Process Steps */}
-          <div className="grid md:grid-cols-3 gap-6 mt-16">
-            <div className="text-center">
-              <div className="h-16 w-16 mx-auto mb-4 rounded-full gradient-blue flex items-center justify-center">
-                <span className="text-2xl font-bold text-white">1</span>
-              </div>
-              <h3 className="text-lg font-semibold text-white mb-2">Isi Profil</h3>
-              <p className="text-slate-400">Lengkapi data diri dan kemampuan Anda</p>
-            </div>
-            <div className="text-center">
-              <div className="h-16 w-16 mx-auto mb-4 rounded-full gradient-blue flex items-center justify-center">
-                <span className="text-2xl font-bold text-white">2</span>
-              </div>
-              <h3 className="text-lg font-semibold text-white mb-2">Analisis AI</h3>
-              <p className="text-slate-400">Sistem menganalisis profil dengan metode canggih</p>
-            </div>
-            <div className="text-center">
-              <div className="h-16 w-16 mx-auto mb-4 rounded-full gradient-blue flex items-center justify-center">
-                <span className="text-2xl font-bold text-white">3</span>
-              </div>
-              <h3 className="text-lg font-semibold text-white mb-2">Dapatkan Rekomendasi</h3>
-              <p className="text-slate-400">Terima rekomendasi karier yang tepat</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Stats Section */}
-      <section className="container mx-auto px-6 py-16">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-          {stats.map((stat, index) => (
-            <Card key={index} className="bg-slate-800/50 border-slate-700 text-center hover:bg-slate-800/70 transition-all duration-300 hover:scale-105">
-              <CardContent className="pt-6">
-                <div className="flex justify-center mb-2 text-blue-400">
-                  {stat.icon}
-                </div>
-                <div className="text-3xl font-bold text-white mb-1">{stat.number}</div>
-                <div className="text-sm text-slate-400">{stat.label}</div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </section>
-
-      {/* Method Cards Section */}
-      <section className="container mx-auto px-6 py-20">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-white mb-4">Metode Canggih</h2>
-          <p className="text-xl text-slate-300 max-w-2xl mx-auto">
-            Menggunakan kombinasi metode terdepan untuk hasil yang akurat
-          </p>
-        </div>
-        
-        <div className="grid lg:grid-cols-3 gap-8">
-          {methodCards.map((method, index) => (
-            <Card key={index} className="bg-slate-800/30 border-slate-700 hover:bg-slate-800/50 transition-all duration-300 hover:scale-105 h-full">
-              <CardHeader className="text-center">
-                <div className="mb-4 flex justify-center">{method.icon}</div>
-                <CardTitle className="text-white text-xl">{method.title}</CardTitle>
-                <CardDescription className="text-slate-300">
-                  {method.description}
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-2">
-                  {method.features.map((feature, idx) => (
-                    <li key={idx} className="flex items-center text-slate-300">
-                      <CheckCircle className="h-4 w-4 text-blue-400 mr-2" />
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </section>
-
-      {/* Features Section */}
-      <section className="container mx-auto px-6 py-20">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-white mb-4">Fitur Unggulan</h2>
-          <p className="text-xl text-slate-300 max-w-2xl mx-auto">
-            Dilengkapi dengan teknologi terdepan untuk memberikan pengalaman terbaik
-          </p>
-        </div>
-        
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {features.map((feature, index) => (
-            <Card key={index} className="bg-slate-800/30 border-slate-700 hover:bg-slate-800/50 transition-all duration-300 hover:scale-105">
-              <CardHeader>
-                <div className="mb-4">{feature.icon}</div>
-                <CardTitle className="text-white">{feature.title}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription className="text-slate-300">
-                  {feature.description}
-                </CardDescription>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </section>
-
-      {/* Testimonial Carousel Section */}
-      <section className="container mx-auto px-6 py-20">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-white mb-4">Testimoni Pengguna</h2>
-          <p className="text-xl text-slate-300 max-w-2xl mx-auto">
-            Dengarkan pengalaman mereka yang telah menemukan karier impiannya
-          </p>
-        </div>
-        
-        <div className="max-w-4xl mx-auto relative">
-          <Card className="bg-slate-800/50 border-slate-700">
-            <CardContent className="p-8 text-center">
-              <div className="flex justify-center mb-4">
-                {[...Array(testimonials[currentTestimonial].rating)].map((_, i) => (
-                  <Star key={i} className="h-5 w-5 text-yellow-400 fill-current" />
-                ))}
-              </div>
-              <blockquote className="text-xl text-white mb-6 italic">
-                "{testimonials[currentTestimonial].content}"
-              </blockquote>
-              <div>
-                <div className="font-semibold text-white">
-                  {testimonials[currentTestimonial].name}
-                </div>
-                <div className="text-slate-400">
-                  {testimonials[currentTestimonial].role}
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Carousel Controls */}
-          <div className="flex justify-center items-center space-x-4 mt-6">
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={prevTestimonial}
-              className="border-slate-600 text-slate-400 hover:bg-slate-800"
-            >
-              <ChevronLeft className="h-4 w-4" />
-            </Button>
-            
-            <div className="flex space-x-2">
-              {testimonials.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setCurrentTestimonial(index)}
-                  className={`h-2 w-2 rounded-full transition-colors ${
-                    index === currentTestimonial ? 'bg-blue-400' : 'bg-slate-600'
-                  }`}
-                />
-              ))}
-            </div>
-
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={nextTestimonial}
-              className="border-slate-600 text-slate-400 hover:bg-slate-800"
-            >
-              <ChevronRight className="h-4 w-4" />
-            </Button>
-          </div>
-
-          {/* Progress Bar */}
-          <div className="mt-4">
-            <Progress 
-              value={((currentTestimonial + 1) / testimonials.length) * 100} 
-              className="h-1 bg-slate-700"
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="container mx-auto px-6 py-20">
-        <Card className="bg-gradient-to-r from-blue-900/50 to-slate-800/50 border-blue-500/30">
-          <CardContent className="p-12 text-center">
-            <div className="flex justify-center mb-6">
-              <Globe className="h-16 w-16 text-blue-400" />
-            </div>
-            <h3 className="text-3xl font-bold text-white mb-4">
-              Siap Menemukan Karier Ideal Anda?
-            </h3>
-            <p className="text-slate-300 mb-8 max-w-2xl mx-auto">
-              Bergabunglah dengan ribuan pengguna yang telah menemukan jalur karier yang tepat 
-              menggunakan sistem rekomendasi kami. Mulai perjalanan karier impian Anda hari ini!
+      <section className="bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+        <div className="container mx-auto px-6 py-20">
+          <div className="text-center max-w-4xl mx-auto">
+            <Badge className="mb-6 bg-blue-500/20 text-blue-400 border-blue-500/30 animate-pulse">
+              <Award className="h-4 w-4 mr-2" />
+              Sistem Pendukung Keputusan Terdepan
+            </Badge>
+            <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 leading-tight">
+              Temukan Karier
+              <span className="bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">
+                {" "}Impian Anda
+              </span>
+            </h1>
+            <p className="text-xl text-slate-300 mb-12 leading-relaxed">
+              Platform revolusioner yang menggunakan teknologi AI dan metode AHP serta Profile Matching 
+              untuk memberikan rekomendasi karier yang akurat dan personal sesuai dengan kemampuan, 
+              minat, dan potensi unik Anda.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
               <Button
                 size="lg"
                 onClick={() => handleModeSelect('user')}
-                className="gradient-blue text-white hover:opacity-90"
+                className={`gradient-blue text-white hover:opacity-90 transition-all duration-300 transform ${
+                  selectedMode === 'user' ? 'scale-105' : 'hover:scale-105'
+                }`}
               >
-                <Clock className="h-5 w-5 mr-2" />
-                Mulai Sekarang
+                <Users className="h-5 w-5 mr-2" />
+                Mulai Sebagai User
                 <ArrowRight className="h-5 w-5 ml-2" />
               </Button>
               <Button
                 size="lg"
                 variant="outline"
                 onClick={() => handleModeSelect('admin')}
-                className="border-blue-500/50 text-blue-400 hover:bg-blue-500/10"
+                className={`border-blue-500/50 text-blue-400 hover:bg-blue-500/10 transition-all duration-300 transform ${
+                  selectedMode === 'admin' ? 'scale-105' : 'hover:scale-105'
+                }`}
               >
                 <Shield className="h-5 w-5 mr-2" />
-                Kelola Sistem
+                Panel Admin
               </Button>
             </div>
-          </CardContent>
-        </Card>
+
+            {/* Hero Process Steps */}
+            <div className="grid md:grid-cols-3 gap-6 mt-16">
+              <div className="text-center">
+                <div className="h-16 w-16 mx-auto mb-4 rounded-full gradient-blue flex items-center justify-center">
+                  <span className="text-2xl font-bold text-white">1</span>
+                </div>
+                <h3 className="text-lg font-semibold text-white mb-2">Isi Profil</h3>
+                <p className="text-slate-400">Lengkapi data diri dan kemampuan Anda</p>
+              </div>
+              <div className="text-center">
+                <div className="h-16 w-16 mx-auto mb-4 rounded-full gradient-blue flex items-center justify-center">
+                  <span className="text-2xl font-bold text-white">2</span>
+                </div>
+                <h3 className="text-lg font-semibold text-white mb-2">Analisis AI</h3>
+                <p className="text-slate-400">Sistem menganalisis profil dengan metode canggih</p>
+              </div>
+              <div className="text-center">
+                <div className="h-16 w-16 mx-auto mb-4 rounded-full gradient-blue flex items-center justify-center">
+                  <span className="text-2xl font-bold text-white">3</span>
+                </div>
+                <h3 className="text-lg font-semibold text-white mb-2">Dapatkan Rekomendasi</h3>
+                <p className="text-slate-400">Terima rekomendasi karier yang tepat</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="bg-slate-800/30">
+        <div className="container mx-auto px-6 py-16">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {stats.map((stat, index) => (
+              <Card key={index} className="bg-slate-900/50 border-slate-700 text-center hover:bg-slate-800/70 transition-all duration-300 hover:scale-105">
+                <CardContent className="pt-6">
+                  <div className="flex justify-center mb-2 text-blue-400">
+                    {stat.icon}
+                  </div>
+                  <div className="text-3xl font-bold text-white mb-1">{stat.number}</div>
+                  <div className="text-sm text-slate-400">{stat.label}</div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Method Cards Section */}
+      <section className="bg-slate-900/80">
+        <div className="container mx-auto px-6 py-20">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-white mb-4">Metode Canggih</h2>
+            <p className="text-xl text-slate-300 max-w-2xl mx-auto">
+              Menggunakan kombinasi metode terdepan untuk hasil yang akurat
+            </p>
+          </div>
+          
+          <div className="grid lg:grid-cols-3 gap-8">
+            {methodCards.map((method, index) => (
+              <Card key={index} className="bg-slate-800/30 border-slate-700 hover:bg-slate-800/50 transition-all duration-300 hover:scale-105 h-full">
+                <CardHeader className="text-center">
+                  <div className="mb-4 flex justify-center">{method.icon}</div>
+                  <CardTitle className="text-white text-xl">{method.title}</CardTitle>
+                  <CardDescription className="text-slate-300">
+                    {method.description}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <ul className="space-y-2">
+                    {method.features.map((feature, idx) => (
+                      <li key={idx} className="flex items-center text-slate-300">
+                        <CheckCircle className="h-4 w-4 text-blue-400 mr-2" />
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="bg-gradient-to-br from-slate-800 to-slate-900">
+        <div className="container mx-auto px-6 py-20">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-white mb-4">Fitur Unggulan</h2>
+            <p className="text-xl text-slate-300 max-w-2xl mx-auto">
+              Dilengkapi dengan teknologi terdepan untuk memberikan pengalaman terbaik
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {features.map((feature, index) => (
+              <Card key={index} className="bg-slate-800/30 border-slate-700 hover:bg-slate-800/50 transition-all duration-300 hover:scale-105">
+                <CardHeader>
+                  <div className="mb-4">{feature.icon}</div>
+                  <CardTitle className="text-white">{feature.title}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <CardDescription className="text-slate-300">
+                    {feature.description}
+                  </CardDescription>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonial Carousel Section */}
+      <section className="bg-slate-900">
+        <div className="container mx-auto px-6 py-20">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-white mb-4">Testimoni Pengguna</h2>
+            <p className="text-xl text-slate-300 max-w-2xl mx-auto">
+              Dengarkan pengalaman mereka yang telah menemukan karier impiannya
+            </p>
+          </div>
+          
+          <div className="max-w-4xl mx-auto relative">
+            <Card className="bg-slate-800/50 border-slate-700">
+              <CardContent className="p-8 text-center">
+                <div className="flex justify-center mb-4">
+                  {[...Array(testimonials[currentTestimonial].rating)].map((_, i) => (
+                    <Star key={i} className="h-5 w-5 text-yellow-400 fill-current" />
+                  ))}
+                </div>
+                <blockquote className="text-xl text-white mb-6 italic">
+                  "{testimonials[currentTestimonial].content}"
+                </blockquote>
+                <div>
+                  <div className="font-semibold text-white">
+                    {testimonials[currentTestimonial].name}
+                  </div>
+                  <div className="text-slate-400">
+                    {testimonials[currentTestimonial].role}
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Carousel Controls */}
+            <div className="flex justify-center items-center space-x-4 mt-6">
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={prevTestimonial}
+                className="border-slate-600 text-slate-400 hover:bg-slate-800"
+              >
+                <ChevronLeft className="h-4 w-4" />
+              </Button>
+              
+              <div className="flex space-x-2">
+                {testimonials.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentTestimonial(index)}
+                    className={`h-2 w-2 rounded-full transition-colors ${
+                      index === currentTestimonial ? 'bg-blue-400' : 'bg-slate-600'
+                    }`}
+                  />
+                ))}
+              </div>
+
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={nextTestimonial}
+                className="border-slate-600 text-slate-400 hover:bg-slate-800"
+              >
+                <ChevronRight className="h-4 w-4" />
+              </Button>
+            </div>
+
+            {/* Progress Bar */}
+            <div className="mt-4">
+              <Progress 
+                value={((currentTestimonial + 1) / testimonials.length) * 100} 
+                className="h-1 bg-slate-700"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="bg-gradient-to-r from-blue-900/50 to-slate-800/50">
+        <div className="container mx-auto px-6 py-20">
+          <Card className="bg-gradient-to-r from-blue-900/30 to-slate-800/30 border-blue-500/30">
+            <CardContent className="p-12 text-center">
+              <div className="flex justify-center mb-6">
+                <Globe className="h-16 w-16 text-blue-400" />
+              </div>
+              <h3 className="text-3xl font-bold text-white mb-4">
+                Siap Menemukan Karier Ideal Anda?
+              </h3>
+              <p className="text-slate-300 mb-8 max-w-2xl mx-auto">
+                Bergabunglah dengan ribuan pengguna yang telah menemukan jalur karier yang tepat 
+                menggunakan sistem rekomendasi kami. Mulai perjalanan karier impian Anda hari ini!
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Button
+                  size="lg"
+                  onClick={() => handleModeSelect('user')}
+                  className="gradient-blue text-white hover:opacity-90"
+                >
+                  <Clock className="h-5 w-5 mr-2" />
+                  Mulai Sekarang
+                  <ArrowRight className="h-5 w-5 ml-2" />
+                </Button>
+                <Button
+                  size="lg"
+                  variant="outline"
+                  onClick={() => handleModeSelect('admin')}
+                  className="border-blue-500/50 text-blue-400 hover:bg-blue-500/10"
+                >
+                  <Shield className="h-5 w-5 mr-2" />
+                  Kelola Sistem
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       </section>
 
       {/* Footer */}
