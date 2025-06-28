@@ -7,6 +7,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 // Pages
 import HomePage from './pages/HomePage';
+import AdminLogin from './pages/Admin/AdminLogin';
 import AdminDashboard from './pages/Admin/AdminDashboard';
 import KriteriaGlobal from './pages/Admin/KriteriaGlobal';
 import JobCriteriaToggle from './pages/Admin/JobCriteriaToggle';
@@ -17,6 +18,12 @@ import RecommendationDetail from './pages/User/RecommendationDetail';
 import Layout from './components/Layout';
 
 const queryClient = new QueryClient();
+
+// Protected Route Component for Admin
+const ProtectedAdminRoute = ({ children }: { children: React.ReactNode }) => {
+  const isAuthenticated = localStorage.getItem('adminAuth') === 'true';
+  return isAuthenticated ? <Layout>{children}</Layout> : <Navigate to="/admin/login" replace />;
+};
 
 function App() {
   return (
@@ -29,12 +36,15 @@ function App() {
             {/* Homepage route */}
             <Route path="/" element={<HomePage />} />
 
-            {/* Admin routes with Layout */}
-            <Route path="/admin" element={<Layout><AdminDashboard /></Layout>} />
-            <Route path="/admin/kriteria-global" element={<Layout><KriteriaGlobal /></Layout>} />
-            <Route path="/admin/pekerjaan/:jobId/kriteria" element={<Layout><JobCriteriaToggle /></Layout>} />
-            <Route path="/admin/pekerjaan/:jobId/ahp" element={<Layout><AHPSetup /></Layout>} />
-            <Route path="/admin/pekerjaan/:jobId/pm" element={<Layout><PMSetup /></Layout>} />
+            {/* Admin login route */}
+            <Route path="/admin/login" element={<AdminLogin />} />
+
+            {/* Protected Admin routes with Layout */}
+            <Route path="/admin" element={<ProtectedAdminRoute><AdminDashboard /></ProtectedAdminRoute>} />
+            <Route path="/admin/kriteria-global" element={<ProtectedAdminRoute><KriteriaGlobal /></ProtectedAdminRoute>} />
+            <Route path="/admin/pekerjaan/:jobId/kriteria" element={<ProtectedAdminRoute><JobCriteriaToggle /></ProtectedAdminRoute>} />
+            <Route path="/admin/pekerjaan/:jobId/ahp" element={<ProtectedAdminRoute><AHPSetup /></ProtectedAdminRoute>} />
+            <Route path="/admin/pekerjaan/:jobId/pm" element={<ProtectedAdminRoute><PMSetup /></ProtectedAdminRoute>} />
 
             {/* User routes with Layout */}
             <Route path="/user" element={<Layout><UserRecommendation /></Layout>} />

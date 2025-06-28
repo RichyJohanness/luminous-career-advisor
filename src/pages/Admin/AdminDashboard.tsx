@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { 
   Users, 
   Briefcase, 
@@ -11,11 +12,27 @@ import {
   BarChart3, 
   Settings,
   Plus,
-  Eye
+  Eye,
+  Edit,
+  Trash2,
+  LogOut
 } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useToast } from '@/hooks/use-toast';
 
 const AdminDashboard = () => {
+  const navigate = useNavigate();
+  const { toast } = useToast();
+
+  const handleLogout = () => {
+    localStorage.removeItem('adminAuth');
+    toast({
+      title: "Logout Berhasil",
+      description: "Anda telah keluar dari panel admin",
+    });
+    navigate('/');
+  };
+
   const stats = [
     {
       title: 'Total Pengguna',
@@ -47,12 +64,15 @@ const AdminDashboard = () => {
     }
   ];
 
-  const recentJobs = [
-    { id: 1, title: 'Software Engineer', applications: 45, status: 'Aktif' },
-    { id: 2, title: 'Data Analyst', applications: 32, status: 'Aktif' },
-    { id: 3, title: 'UI/UX Designer', applications: 28, status: 'Review' },
-    { id: 4, title: 'Product Manager', applications: 19, status: 'Aktif' },
-    { id: 5, title: 'DevOps Engineer', applications: 15, status: 'Draft' }
+  const jobList = [
+    { id: 1, name: 'Software Engineer', category: 'Teknologi', status: 'Aktif' },
+    { id: 2, name: 'Data Analyst', category: 'Teknologi', status: 'Aktif' },
+    { id: 3, name: 'UI/UX Designer', category: 'Desain', status: 'Review' },
+    { id: 4, name: 'Product Manager', category: 'Manajemen', status: 'Aktif' },
+    { id: 5, name: 'DevOps Engineer', category: 'Teknologi', status: 'Draft' },
+    { id: 6, name: 'Marketing Specialist', category: 'Marketing', status: 'Aktif' },
+    { id: 7, name: 'Business Analyst', category: 'Bisnis', status: 'Aktif' },
+    { id: 8, name: 'HR Manager', category: 'SDM', status: 'Review' },
   ];
 
   const systemHealth = [
@@ -61,6 +81,13 @@ const AdminDashboard = () => {
     { name: 'API Response Time', value: 88, color: 'bg-yellow-500' },
     { name: 'User Satisfaction', value: 92, color: 'bg-purple-500' }
   ];
+
+  const handleDelete = (jobId: number, jobName: string) => {
+    toast({
+      title: "Pekerjaan Dihapus",
+      description: `${jobName} telah dihapus dari sistem`,
+    });
+  };
 
   return (
     <div className="space-y-8">
@@ -80,6 +107,10 @@ const AdminDashboard = () => {
           <Button className="gradient-blue">
             <Plus className="h-4 w-4 mr-2" />
             Tambah Pekerjaan
+          </Button>
+          <Button variant="outline" onClick={handleLogout}>
+            <LogOut className="h-4 w-4 mr-2" />
+            Logout
           </Button>
         </div>
       </div>
@@ -107,97 +138,134 @@ const AdminDashboard = () => {
         ))}
       </div>
 
-      <div className="grid lg:grid-cols-3 gap-8">
-        {/* Recent Jobs */}
-        <div className="lg:col-span-2">
-          <Card className="bg-card/50 border-border">
-            <CardHeader className="flex flex-row items-center justify-between">
-              <div>
-                <CardTitle className="text-foreground">Pekerjaan Terbaru</CardTitle>
-                <CardDescription>Daftar pekerjaan yang baru ditambahkan</CardDescription>
-              </div>
-              <Button variant="ghost" size="sm">
-                <Eye className="h-4 w-4 mr-2" />
-                Lihat Semua
-              </Button>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {recentJobs.map((job) => (
-                  <div key={job.id} className="flex items-center justify-between p-4 rounded-lg bg-muted/30">
-                    <div className="flex items-center space-x-4">
-                      <div className="h-10 w-10 rounded-lg gradient-blue flex items-center justify-center">
-                        <Briefcase className="h-5 w-5 text-white" />
-                      </div>
-                      <div>
-                        <h4 className="font-medium text-foreground">{job.title}</h4>
-                        <p className="text-sm text-muted-foreground">{job.applications} aplikasi</p>
-                      </div>
-                    </div>
+      {/* Job List Table */}
+      <Card className="bg-card/50 border-border">
+        <CardHeader>
+          <CardTitle className="text-foreground">Daftar Pekerjaan</CardTitle>
+          <CardDescription>Kelola semua pekerjaan dalam sistem</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-16">No</TableHead>
+                <TableHead>Nama Pekerjaan</TableHead>
+                <TableHead className="w-32">AHP</TableHead>
+                <TableHead className="w-32">PM</TableHead>
+                <TableHead>Kategori</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead className="w-32">Action</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {jobList.map((job, index) => (
+                <TableRow key={job.id}>
+                  <TableCell className="font-medium">{index + 1}</TableCell>
+                  <TableCell className="font-medium">{job.name}</TableCell>
+                  <TableCell>
+                    <Link to={`/admin/pekerjaan/${job.id}/ahp`}>
+                      <Button variant="outline" size="sm">
+                        <Edit className="h-3 w-3 mr-1" />
+                        Edit AHP
+                      </Button>
+                    </Link>
+                  </TableCell>
+                  <TableCell>
+                    <Link to={`/admin/pekerjaan/${job.id}/pm`}>
+                      <Button variant="outline" size="sm">
+                        <Edit className="h-3 w-3 mr-1" />
+                        Edit PM
+                      </Button>
+                    </Link>
+                  </TableCell>
+                  <TableCell>
+                    <Link to={`/admin/pekerjaan/${job.id}/kriteria`}>
+                      <Button variant="outline" size="sm">
+                        <Edit className="h-3 w-3 mr-1" />
+                        {job.category}
+                      </Button>
+                    </Link>
+                  </TableCell>
+                  <TableCell>
                     <Badge 
                       variant={job.status === 'Aktif' ? 'default' : 'secondary'}
                       className={job.status === 'Aktif' ? 'bg-green-500/20 text-green-400 border-green-500/30' : ''}
                     >
                       {job.status}
                     </Badge>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* System Health */}
-        <div>
-          <Card className="bg-card/50 border-border">
-            <CardHeader>
-              <CardTitle className="text-foreground">Kesehatan Sistem</CardTitle>
-              <CardDescription>Status performa sistem secara real-time</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              {systemHealth.map((item, index) => (
-                <div key={index} className="space-y-2">
-                  <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">{item.name}</span>
-                    <span className="text-foreground font-medium">{item.value}%</span>
-                  </div>
-                  <Progress value={item.value} className="h-2" />
-                </div>
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex space-x-2">
+                      <Button variant="outline" size="sm">
+                        <Edit className="h-3 w-3" />
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        onClick={() => handleDelete(job.id, job.name)}
+                        className="text-red-400 hover:text-red-300"
+                      >
+                        <Trash2 className="h-3 w-3" />
+                      </Button>
+                    </div>
+                  </TableCell>
+                </TableRow>
               ))}
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-
-      {/* Quick Actions */}
-      <Card className="bg-card/50 border-border">
-        <CardHeader>
-          <CardTitle className="text-foreground">Aksi Cepat</CardTitle>
-          <CardDescription>Fungsi-fungsi yang sering digunakan</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <Link to="/admin/kriteria-global">
-              <Button variant="outline" className="w-full h-20 flex flex-col space-y-2">
-                <Settings className="h-6 w-6" />
-                <span className="text-sm">Kriteria Global</span>
-              </Button>
-            </Link>
-            <Button variant="outline" className="w-full h-20 flex flex-col space-y-2">
-              <Briefcase className="h-6 w-6" />
-              <span className="text-sm">Tambah Pekerjaan</span>
-            </Button>
-            <Button variant="outline" className="w-full h-20 flex flex-col space-y-2">
-              <BarChart3 className="h-6 w-6" />
-              <span className="text-sm">Laporan</span>
-            </Button>
-            <Button variant="outline" className="w-full h-20 flex flex-col space-y-2">
-              <Users className="h-6 w-6" />
-              <span className="text-sm">Kelola User</span>
-            </Button>
-          </div>
+            </TableBody>
+          </Table>
         </CardContent>
       </Card>
+
+      <div className="grid lg:grid-cols-2 gap-8">
+        {/* System Health */}
+        <Card className="bg-card/50 border-border">
+          <CardHeader>
+            <CardTitle className="text-foreground">Kesehatan Sistem</CardTitle>
+            <CardDescription>Status performa sistem secara real-time</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            {systemHealth.map((item, index) => (
+              <div key={index} className="space-y-2">
+                <div className="flex justify-between text-sm">
+                  <span className="text-muted-foreground">{item.name}</span>
+                  <span className="text-foreground font-medium">{item.value}%</span>
+                </div>
+                <Progress value={item.value} className="h-2" />
+              </div>
+            ))}
+          </CardContent>
+        </Card>
+
+        {/* Quick Actions */}
+        <Card className="bg-card/50 border-border">
+          <CardHeader>
+            <CardTitle className="text-foreground">Aksi Cepat</CardTitle>
+            <CardDescription>Fungsi-fungsi yang sering digunakan</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-2 gap-4">
+              <Link to="/admin/kriteria-global">
+                <Button variant="outline" className="w-full h-20 flex flex-col space-y-2">
+                  <Settings className="h-6 w-6" />
+                  <span className="text-sm">Kriteria Global</span>
+                </Button>
+              </Link>
+              <Button variant="outline" className="w-full h-20 flex flex-col space-y-2">
+                <Briefcase className="h-6 w-6" />
+                <span className="text-sm">Tambah Pekerjaan</span>
+              </Button>
+              <Button variant="outline" className="w-full h-20 flex flex-col space-y-2">
+                <BarChart3 className="h-6 w-6" />
+                <span className="text-sm">Laporan</span>
+              </Button>
+              <Button variant="outline" className="w-full h-20 flex flex-col space-y-2">
+                <Users className="h-6 w-6" />
+                <span className="text-sm">Kelola User</span>
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 };

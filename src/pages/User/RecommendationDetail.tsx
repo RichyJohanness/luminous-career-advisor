@@ -1,9 +1,10 @@
 
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { 
   ArrowLeft, 
   Star, 
@@ -16,12 +17,17 @@ import {
   AlertCircle,
   BookOpen,
   Award,
-  Target
+  Target,
+  User,
+  Calculator
 } from 'lucide-react';
-import { Link } from 'react-router-dom';
 
 const RecommendationDetail = () => {
   const { jobId } = useParams();
+  const navigate = useNavigate();
+
+  // Load user profile from localStorage
+  const userProfile = JSON.parse(localStorage.getItem('userProfile') || '{}');
 
   // Mock job detail data
   const jobDetail = {
@@ -60,10 +66,16 @@ const RecommendationDetail = () => {
       { name: 'DevOps', level: 60, match: false }
     ],
     criteriaAnalysis: [
-      { criteria: 'Pendidikan', required: 4, user: 4, gap: 0, score: 100 },
-      { criteria: 'Pengalaman Kerja', required: 3, user: 3, gap: 0, score: 100 },
-      { criteria: 'Keterampilan Teknis', required: 4, user: 4, gap: 0, score: 100 },
-      { criteria: 'Soft Skills', required: 3, user: 4, gap: 1, score: 110 }
+      { criteria: 'Pendidikan', required: 4, user: 4, gap: 0, score: 100, weight: 0.25 },
+      { criteria: 'Pengalaman Kerja', required: 3, user: 3, gap: 0, score: 100, weight: 0.30 },
+      { criteria: 'Keterampilan Teknis', required: 4, user: 4, gap: 0, score: 100, weight: 0.30 },
+      { criteria: 'Soft Skills', required: 3, user: 4, gap: 1, score: 110, weight: 0.15 }
+    ],
+    calculationDetail: [
+      { step: 'Normalisasi Matriks', description: 'Menghitung nilai normalisasi dari setiap kriteria', value: '0.85' },
+      { step: 'Bobot AHP', description: 'Menerapkan bobot dari metode AHP', value: '0.92' },
+      { step: 'Profile Matching', description: 'Menghitung gap dan Core Factor', value: '0.88' },
+      { step: 'Skor Akhir', description: 'Kombinasi semua metode perhitungan', value: '95%' }
     ]
   };
 
@@ -82,17 +94,55 @@ const RecommendationDetail = () => {
     );
   };
 
+  const handleBack = () => {
+    navigate(-1); // Go back to previous page
+  };
+
   return (
     <div className="space-y-8">
+      {/* User Profile Info */}
+      {userProfile.name && (
+        <Card className="bg-card/50 border-border">
+          <CardHeader>
+            <CardTitle className="text-foreground flex items-center">
+              <User className="h-5 w-5 mr-2" />
+              Profil Anda
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-4 text-sm">
+              <div>
+                <span className="text-muted-foreground">Nama:</span>
+                <p className="font-medium text-foreground">{userProfile.name}</p>
+              </div>
+              <div>
+                <span className="text-muted-foreground">Usia:</span>
+                <p className="font-medium text-foreground">{userProfile.age} tahun</p>
+              </div>
+              <div>
+                <span className="text-muted-foreground">Pendidikan:</span>
+                <p className="font-medium text-foreground">{userProfile.education}</p>
+              </div>
+              <div>
+                <span className="text-muted-foreground">Jurusan:</span>
+                <p className="font-medium text-foreground">{userProfile.major}</p>
+              </div>
+              <div>
+                <span className="text-muted-foreground">Pengalaman:</span>
+                <p className="font-medium text-foreground">{userProfile.experience}</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-4">
-          <Link to="/user">
-            <Button variant="outline" size="sm">
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Kembali
-            </Button>
-          </Link>
+          <Button variant="outline" size="sm" onClick={handleBack}>
+            <ArrowLeft className="h-4 w-4 mr-2" />
+            Kembali
+          </Button>
           <div>
             <h1 className="text-3xl font-bold text-foreground">{jobDetail.title}</h1>
             <p className="text-muted-foreground">{jobDetail.company}</p>
@@ -135,6 +185,71 @@ const RecommendationDetail = () => {
                 </div>
               </div>
               <p className="text-muted-foreground">{jobDetail.description}</p>
+            </CardContent>
+          </Card>
+
+          {/* Calculation Statistics Table */}
+          <Card className="bg-card/50 border-border">
+            <CardHeader>
+              <CardTitle className="text-foreground flex items-center">
+                <Calculator className="h-5 w-5 mr-2" />
+                Detail Perhitungan Skor
+              </CardTitle>
+              <CardDescription>Statistik perhitungan menggunakan metode AHP dan Profile Matching</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Kriteria</TableHead>
+                    <TableHead className="text-center">Target</TableHead>
+                    <TableHead className="text-center">Anda</TableHead>
+                    <TableHead className="text-center">Gap</TableHead>
+                    <TableHead className="text-center">Bobot</TableHead>
+                    <TableHead className="text-center">Skor</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {jobDetail.criteriaAnalysis.map((criteria, index) => (
+                    <TableRow key={index}>
+                      <TableCell className="font-medium">{criteria.criteria}</TableCell>
+                      <TableCell className="text-center">{criteria.required}</TableCell>
+                      <TableCell className="text-center">{criteria.user}</TableCell>
+                      <TableCell className={`text-center ${getGapColor(criteria.gap)}`}>
+                        {criteria.gap > 0 ? '+' : ''}{criteria.gap}
+                      </TableCell>
+                      <TableCell className="text-center">{(criteria.weight * 100).toFixed(0)}%</TableCell>
+                      <TableCell className="text-center">
+                        <Badge variant="outline" className={getGapColor(criteria.gap)}>
+                          {criteria.score}%
+                        </Badge>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+              
+              <div className="mt-6 space-y-4">
+                <h4 className="font-medium text-foreground">Tahapan Perhitungan:</h4>
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Tahap</TableHead>
+                      <TableHead>Deskripsi</TableHead>
+                      <TableHead className="text-center">Nilai</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {jobDetail.calculationDetail.map((detail, index) => (
+                      <TableRow key={index}>
+                        <TableCell className="font-medium">{detail.step}</TableCell>
+                        <TableCell className="text-muted-foreground">{detail.description}</TableCell>
+                        <TableCell className="text-center font-medium text-blue-400">{detail.value}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
             </CardContent>
           </Card>
 
